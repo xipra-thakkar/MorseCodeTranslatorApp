@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Morse Code Translator</title>
+</head>
+<body>
+<div>
+<form method="post" th:action="@{/translate}" th:object="${code}">
+	<h1>Enter text to translate :</h1><br>
+	<input type="text" th:field="*{code}"/>
+	<input type="submit" value="Translate"/>
+</form>
+</div>
+<div>
+<h2>History</h2>
+  <table>
+    <tr>
+      <th>Input</th>
+      <th>Translated Output</th>
+    </tr>
+    <tr th:each="c, stat : ${CodeList}">
+      <td th:text="${c.code}"></td>
+      <td th:text="${TranslatedList[stat.index].translation}"></td>
+    </tr>
+  </table>
+</div>
+</body>
+</html>
