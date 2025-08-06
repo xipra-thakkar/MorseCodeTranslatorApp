@@ -3,27 +3,50 @@
 <head>
 <meta charset="UTF-8">
 <title>Morse Code Translator</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+<link rel="stylesheet" href="css/style.css"/>
 </head>
 <body>
-<div>
-<form method="post" th:action="@{/translate}" th:object="${code}">
-	<h1>Enter text to translate :</h1><br>
-	<input type="text" th:field="*{code}"/>
-	<input type="submit" value="Translate"/>
-</form>
+<video autoplay muted loop id="bg-video">
+  <source th:src="@{/videos/background.mp4}" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+<div class="page-overlay"></div>
+<div class="container"> 
+	<header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom"> 
+	<a href="/morse-code" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none"> 
+		<img class="bi me-2" width="40" height="32" aria-hidden="true" src="images/logo.png"/> 
+		<img class="bi me-2" width="120" height="32" aria-hidden="true" src="images/text.png"/> 
+	</a> 
+	<ul class="nav nav-pills">
+		<li class="nav-item"><a href="/morse-code" class="nav-link">English To Morse</a></li> 
+		<li class="nav-item"><a href="/morse-to-text" class="nav-link">Morse to English</a></li> 
+		<li class="nav-item"><a href="#" class="nav-link">About</a></li> 
+	</ul> 
+	</header> 
 </div>
-<div>
-<h2>History</h2>
-  <table>
-    <tr>
-      <th>Input</th>
-      <th>Translated Output</th>
-    </tr>
-    <tr th:each="c, stat : ${CodeList}">
-      <td th:text="${c.code}"></td>
-      <td th:text="${TranslatedList[stat.index].translation}"></td>
-    </tr>
-  </table>
+<div class="content">
+  <div class="glass-box">
+    <form method="post" th:action="@{/translate}" th:object="${code}">
+      <h1>Enter text to translate :</h1>
+      <input type="text" th:field="*{code}" placeholder="Type text here..." />
+      <input type="submit" value="Translate" />
+    </form>
+  </div>
+
+  <div class="glass-box">
+    <table>
+      <tr>
+        <th>Input</th>
+        <th>Translated Output</th>
+      </tr>
+      <tr th:each="c, stat : ${CodeList}">
+        <td th:text="${c.code}"></td>
+        <td th:text="${TranslatedList[stat.index].translation}"></td>
+      </tr>
+    </table>
+  </div>
 </div>
+
 </body>
 </html>

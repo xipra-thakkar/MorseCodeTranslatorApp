@@ -1,0 +1,101 @@
+@charset "UTF-8";
+
+/* Base styles */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  color: white;
+}
+
+/* Video background */
+#bg-video {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  transform: translate(-50%, -50%);
+  object-fit: cover; /* fill screen, keep aspect ratio */
+  z-index: -2;
+  filter: brightness(0.6) saturate(1.1);
+}
+
+/* Optional overlay to darken background for better contrast */
+.page-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: -1;
+}
+
+/* Main content container */
+.content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 30px;
+}
+
+/* Frosted glass effect for form/table */
+.glass-box {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 20px auto;
+  width: 80%;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* Table styling */
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 10px 14px;
+}
+
+th {
+  background: rgba(255, 255, 255, 0.15);
+  font-weight: bold;
+}
+
+tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+tr:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* Input & button styles */
+input[type="text"] {
+  padding: 10px 14px;
+  border-radius: 6px;
+  border: none;
+  width: 60%;
+  margin-right: 10px;
+  outline: none;
+}
+
+input[type="submit"] {
+  padding: 10px 20px;
+  border-radius: 6px;
+  border: none;
+  background: linear-gradient(135deg, #58a6ff, #9b59ff);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.1s ease, background 0.3s ease;
+}
+
+input[type="submit"]:hover {
+  background: linear-gradient(135deg, #9b59ff, #58a6ff);
+  transform: translateY(-1px);
+}

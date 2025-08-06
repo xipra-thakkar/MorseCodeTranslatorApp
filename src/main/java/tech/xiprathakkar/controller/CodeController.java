@@ -16,14 +16,17 @@ import tech.xiprathakkar.beans.Translate;
 @Controller
 public class CodeController {
 
-	List<Code>CodeList=new CopyOnWriteArrayList<Code>();
-	List<Translate>TranslatedList=new CopyOnWriteArrayList<Translate>();
+	List<Code>eToMCodeList=new CopyOnWriteArrayList<Code>();
+	List<Translate>eToMTranslatedList=new CopyOnWriteArrayList<Translate>();
+	
+	List<Code>mToECodeList=new CopyOnWriteArrayList<Code>();
+	List<Translate>mToETranslatedList=new CopyOnWriteArrayList<Translate>();
 	
 	@GetMapping("/morse-code")
 	public String morseCode(Model model, @ModelAttribute Code code) {
 		model.addAttribute("code", new Code());
-		model.addAttribute("CodeList", CodeList);
-		model.addAttribute("TranslatedList", TranslatedList);
+		model.addAttribute("CodeList", eToMCodeList);
+		model.addAttribute("TranslatedList", eToMTranslatedList);
 		return "morse-code";
 	}
 	
@@ -88,15 +91,96 @@ public class CodeController {
     
 	@PostMapping("/translate")
 	public String translate(Model model, @ModelAttribute Code code) {
-	    CodeList.add(code);
+	    eToMCodeList.add(code);
 	    
 	    String output = toMorse(code.getCode());
 	    
-	    TranslatedList.add(Translate.builder().translation(output).build());
+	    eToMTranslatedList.add(Translate.builder().translation(output).build());
 	    
 	    model.addAttribute("code", new Code());
-		model.addAttribute("CodeList", CodeList);
-		model.addAttribute("TranslatedList", TranslatedList);
+		model.addAttribute("CodeList", eToMCodeList);
+		model.addAttribute("TranslatedList", eToMTranslatedList);
 		return "morse-code";
 	}
+	
+	@GetMapping("/morse-to-text")
+    public String morseToText(Model model) {
+        model.addAttribute("code", new Code());
+        model.addAttribute("CodeList", mToECodeList);
+        model.addAttribute("TranslatedList", mToETranslatedList);
+        return "morse-to-text";
+    }
+	
+	private static final HashMap<String, Character> morseToTextMap = new HashMap<>();
+	
+	static {
+		morseToTextMap.put(".-", 'A');
+        morseToTextMap.put("-...", 'B');
+        morseToTextMap.put("-.-.", 'C');
+        morseToTextMap.put("-..", 'D');
+        morseToTextMap.put(".", 'E');
+        morseToTextMap.put("..-.", 'F');
+        morseToTextMap.put("--.", 'G');
+        morseToTextMap.put("....", 'H');
+        morseToTextMap.put("..", 'I');
+        morseToTextMap.put(".---", 'J');
+        morseToTextMap.put("-.-", 'K');
+        morseToTextMap.put(".-..", 'L');
+        morseToTextMap.put("--", 'M');
+        morseToTextMap.put("-.", 'N');
+        morseToTextMap.put("---", 'O');
+        morseToTextMap.put(".--.", 'P');
+        morseToTextMap.put("--.-", 'Q');
+        morseToTextMap.put(".-.", 'R');
+        morseToTextMap.put("...", 'S');
+        morseToTextMap.put("-", 'T');
+        morseToTextMap.put("..-", 'U');
+        morseToTextMap.put("...-", 'V');
+        morseToTextMap.put(".--", 'W');
+        morseToTextMap.put("-..-", 'X');
+        morseToTextMap.put("-.--", 'Y');
+        morseToTextMap.put("--..", 'Z');
+        morseToTextMap.put(".----", '1');
+        morseToTextMap.put("..---", '2');
+        morseToTextMap.put("...--", '3');
+        morseToTextMap.put("....-", '4');
+        morseToTextMap.put(".....", '5');
+        morseToTextMap.put("-....", '6');
+        morseToTextMap.put("--...", '7');
+        morseToTextMap.put("---..", '8');
+        morseToTextMap.put("----.", '9');
+        morseToTextMap.put("-----", '0');
+        for (var entry : textToMorseMap.entrySet()) {
+            morseToTextMap.put(entry.getValue(), entry.getKey());
+        }
+	}
+	
+	private String toText(String morseCode) {
+        if (morseCode == null) return "";
+        StringBuilder sb = new StringBuilder();
+        String[] words = morseCode.trim().replaceAll("\\s+", " ").split("\\s*/\\s*"); // tolerate spaces around /
+        for (String word : words) {
+            if (word.isBlank()) continue;
+            for (String letter : word.trim().split(" ")) {
+                if (letter.isBlank()) continue;
+                Character c = morseToTextMap.get(letter);
+                if (c != null) sb.append(c);
+            }
+            sb.append(' ');
+        }
+        return sb.toString().trim();
+    }
+	
+	@PostMapping("/morse-to-text")
+    public String morseToTextTranslate(Model model, @ModelAttribute Code code) {
+        mToECodeList.add(code);
+        String output = toText(code.getCode());
+        mToETranslatedList.add(Translate.builder().translation(output).build());
+
+        model.addAttribute("code", new Code());
+        model.addAttribute("CodeList", mToECodeList);
+        model.addAttribute("TranslatedList", mToETranslatedList);
+        return "morse-to-text";
+    }
+
 }
