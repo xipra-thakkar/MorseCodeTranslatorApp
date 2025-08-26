@@ -19,7 +19,7 @@ html, body {
   transform: translate(-50%, -50%);
   object-fit: cover; /* fill screen, keep aspect ratio */
   z-index: -2;
-  filter: brightness(0.6) saturate(1.1);
+  filter: brightness(0.8) saturate(1.1);
 }
 
 /* Optional overlay to darken background for better contrast */
@@ -98,4 +98,34 @@ input[type="submit"] {
 input[type="submit"]:hover {
   background: linear-gradient(135deg, #9b59ff, #58a6ff);
   transform: translateY(-1px);
+}
+
+.nav-pills .nav-link {
+  background: linear-gradient(135deg, #58a6ff, #9b59ff);
+  color: white;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 4px;
+  margin-right: 10px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  text-align: center;
+  text-decoration: none;
+}
+
+.nav-pills .nav-link:hover {
+  background: linear-gradient(135deg, #9b59ff, #58a6ff);
+  transform: translateY(-1px);
+}
+
+#logo-text {
+  color: white !important;
+  font-size: 1.8rem;
+  font-weight: bold;
+  text-decoration: none;
+  letter-spacing: 2px;
+}
+
+#logo-text:hover {
+  color: #ddd; /* Subtle hover effect */
 }
